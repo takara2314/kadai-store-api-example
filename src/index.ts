@@ -4,6 +4,9 @@ import * as yaml from 'js-yaml';
 import * as path from 'path';
 import { Worker } from 'worker_threads';
 
+// レスポンスするJSON
+let resJSON: string = '{"acquisition": "2020-04-01T00:00:00.000Z", "assignments": []}'
+
 // Express.js を使用する
 const app: express.Express = express();
 // config.yaml から設定を読み込む
@@ -26,7 +29,8 @@ router.get('/version', (req: express.Request, res: express.Response) => {
 router.get('/get', (req: express.Request, res: express.Response) => {
     console.log(`|GET| /get << ${req.ip}`);
     res.status(200);
-    res.send('API');
+    res.header('Content-Type', 'application/json; charset=utf-8')
+    res.send(resJSON);
 });
 // [GET] 404 Not Found
 router.get('*', (req: express.Request, res: express.Response) => {
@@ -56,5 +60,6 @@ const task: Worker = new Worker(
 );
 // スクレイピングされたら、JSON文字列に変換して標準出力
 task.on('message', (mes) => {
-    console.log(JSON.stringify(mes.value));
+    // console.log(JSON.stringify(mes.value));
+    resJSON = JSON.stringify(mes.value);
 })
