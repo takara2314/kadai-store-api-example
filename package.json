@@ -1,0 +1,27 @@
+{
+  "name": "kadai-store-api",
+  "version": "1.0.0",
+  "description": "devoirs-coreを使用してMS Teamsで出されている課題の情報を取得し、APIを提供します。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takara2314/kadai-store-api.git"
+  },
+  "author": "Takara Hamaguchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takara2314/kadai-store-api/issues"
+  },
+  "homepage": "https://github.com/takara2314/kadai-store-api#readme",
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "devoirs-core": "^0.2.0"
+  }
+}
