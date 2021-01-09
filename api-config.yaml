@@ -1,0 +1,12 @@
+timezones:
+  - Asia/Tokyo
+  - Asia/Ulaanbaatar
+  - Asia/Bangkok
+
+subjects:
+  - ["[099] 狐工学2", "狐工学2", "fox2"]
+  - ["[099] 猫工学基礎", "猫工学基礎", "cat-tutorial"]
+
+allow-tokens:
+  - 12345678abc9cba87654321
+  - 98765432abc1cba23456789

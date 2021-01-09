@@ -1,9 +1,8 @@
 import * as devoirs from 'devoirs-core';
-import { isMainThread, parentPort } from 'worker_threads';
+import { isMainThread, parentPort, workerData } from 'worker_threads';
 import fs from 'fs-extra';
 import * as moment from 'moment-timezone';
 import { Assignment, ScrapingData, ScrapingDatas } from './models';
-import { assert } from 'console';
 
 // メインスレッドで実行されているなら
 if (isMainThread) {
@@ -79,24 +78,42 @@ const scraping = () => {
             }
         }
 
+        // 全ての課題の情報が載っている、スクレイピング情報
         let kadaiDataUTC: ScrapingData = {
             acquisition: moment.default().tz('Etc/UTC').toDate(),
             assignments: kadaiInfos
         }
+        // 提出期限が未来の課題の情報が載っている、スクレイピング情報
+        let kadaiDataUTCFuture: ScrapingData = {
+            acquisition: moment.default().tz('Etc/UTC').toDate(),
+            assignments: kadaiInfosFuture
+        }
 
-        // let kadaiData_all: ResJSONs;
-        // let kadaiDataUTC: ResJSON;
-        // let kadaiDataUTCFuture: ResJSON;
-        // let kadaiDataJapan: ResJSON;
-        // let kadaiDataJapanFuture: ResJSON;
-        // let kadaiDataMongolia: ResJSON;
-        // let kadaiDataMongoliaFuture: ResJSON;
-        // let kadaiDataThailand: ResJSON;
-        // let kadaiDataThailandFuture: ResJSON;
+        let jsonDataAll: Array<ScrapingData> = [];
+        let jsonDataFuture: Array<ScrapingData> = [];
+
+        // 扱うタイムゾーンの分だけ、そのタイムゾーンに合わせて複製
+        for (let timezone in workerData.timezones) {
+            jsonDataAll.push(kadaiDataUTC);
+            jsonDataFuture.push(kadaiDataUTCFuture);
+            // ↓ 次のコミットで実装 ↓
+            // jsonDataAll.push(
+            //     timeConv(kadaiDataUTC, timezone)
+            // );
+            // jsonDataFuture.push(
+            //     timeConv(kadaiDataUTCFuture, timezone)
+            // );
+        }
+
+        // レスポンスするJSONのデータ
+        let jsonData: ScrapingDatas = {
+            all:    jsonDataAll,
+            future: jsonDataFuture
+        }
 
         // index.ts へ課題情報オブジェクトを返す
         parentPort!.postMessage({
-            value: kadaiDataUTC
+            value: jsonData
         });
     })().catch(console.error);
 };

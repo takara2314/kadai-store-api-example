@@ -12,31 +12,39 @@ const app: express.Express = express();
 // config.yaml から設定を読み込む
 // const config: any = yaml.load(fs.readFileSync('./config.yaml').toString('utf-8'));
 
+// 扱うタイムゾーン
+const timezones: Array<string> = ['Asia/Tokyo', 'Asia/Ulaanbaatar', 'Asia/Bangkok'];
+
 const router: express.Router = express.Router();
+
 // [GET] /
 router.get('/', (req: express.Request, res: express.Response) => {
-    console.log(`|GET| / << ${req.ip}`);
+    console.log(`|GET| /        << ${req.ip}`);
     res.status(200);
     res.send(`TCJ2 Kadai Store API - v${process.env.npm_package_version}`);
 });
+
 // [GET] /version
 router.get('/version', (req: express.Request, res: express.Response) => {
     console.log(`|GET| /version << ${req.ip}`);
     res.status(200);
     res.send(`TCJ2 Kadai Store API - v${process.env.npm_package_version}`);
 });
+
 // [GET] /get
 router.get('/get', (req: express.Request, res: express.Response) => {
-    console.log(`|GET| /get << ${req.ip}`);
+    console.log(`|GET| /get     << ${req.ip}`);
     res.status(200);
     res.header('Content-Type', 'application/json; charset=utf-8')
     res.send(resJSON);
 });
+
 // [GET] 404 Not Found
 router.get('*', (req: express.Request, res: express.Response) => {
     res.status(404);
     res.send('404 Not Found');
 })
+
 // [POST] 404 Not Found
 router.post('*', (req: express.Request, res: express.Response) => {
     res.status(404);
@@ -54,7 +62,8 @@ const task: Worker = new Worker(
     path.resolve(__dirname, './worker.js'),
     {
         workerData: {
-            path: './scraping.ts'
+            path:      './scraping.ts',
+            timezones: timezones
         }
     }
 );

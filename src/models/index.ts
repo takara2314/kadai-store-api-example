@@ -14,18 +14,10 @@ export interface ScrapingData {
     assignments?: Assignment[];
 }
 
-// 扱うのタイムゾーンの分だけ、スクレイピング情報を格納するオブジェクト
+// 扱うタイムゾーンの分だけ、スクレイピング情報を格納するオブジェクト
 export interface ScrapingDatas {
-    // UTC (Etc/UTC)
-    utc?:             ScrapingData;
-    utcFuture?:       ScrapingData;
-    // 日本 (Asia/Tokyo)
-    japan?:           ScrapingData;
-    japanFuture?:     ScrapingData;
-    // モンゴル (Asia/Ulaanbaatar)
-    mongolia?:        ScrapingData;
-    mongolia_future?: ScrapingData;
-    // タイ (Asia/Bangkok)
-    thailand?:        ScrapingData;
-    thailandFuture?:  ScrapingData;
+    // 全ての課題情報
+    all?:    Array<ScrapingData>;
+    // 提出期限が未来のものだけの課題情報
+    future?: Array<ScrapingData>;
 }
