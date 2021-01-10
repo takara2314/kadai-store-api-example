@@ -1,12 +1,46 @@
+# Kadai Store API v1.0.0
+# 基本的な設定
+
+# MS Teamsから課題情報を取得する、時間の間隔(分)をここで指定します。
+# 1 以上の整数を入れてください。
+update_duration: 5
+
+# MS Teamsから課題情報を取得しない、時(hour)があれば、ここで指定します。(複数指定可)
+# 0 から 23 の中の整数を入れてください。指定がない場合は [] にしてください。
+update_offtimes: [0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23]
+
+# 1つのトークンが、下で指定する期間内にこのAPIにGETできる回数をここで指定します。
+# 1 以上の整数もしくは -1 を入れてください。指定しない場合は -1 を入れてください。
+get_limit: -1
+
+# get_limit の期間(分)をここで指定します。
+# 1 以上の整数もしくは -1 を入れてください。get_limit で指定していない場合は -1 を入れてください。
+get_limit_duration: -1
+
+# 一時的なデータを保管するディレクトリをここで指定します。
+#   Herokuを使用する場合: ./tmp/api-data
+#   Google App Engineを使用する場合: ./tmp/api-data
+tmp_dir: ./tmp/api-data
+
+# UTC(協定世界時)以外に扱うタイムゾーンをここで指定します。
+# 利用可能なタイムゾーンは https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List の
+# TZ database name をご覧ください。
 timezones:
   - Asia/Tokyo
   - Asia/Ulaanbaatar
   - Asia/Bangkok
 
+# 取得する課題が格納されているチーム名と、教科名、IDをここで指定します。
+#   チーム名: MS Teamsで確認することができる、チーム名
+#   教科名:   シラバスに記載されている教科名 (任意の名前)
+#   ID:      URLクエリパラメータで、教科を指定するためのID (任意の名前)
+# 配列の0番目にチーム名、1番目に教科名、2番目にIDを入れてください。
 subjects:
   - ["[099] 狐工学2", "狐工学2", "fox2"]
   - ["[099] 猫工学基礎", "猫工学基礎", "cat-tutorial"]
 
+# 当APIにアクセスを許可するトークンをここで指定します。(任意の文字列)
+# ここで定めたものを、API利用者にお伝えください。
 allow-tokens:
   - 12345678abc9cba87654321
   - 98765432abc1cba23456789

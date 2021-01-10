@@ -13,11 +13,11 @@ if (isMainThread) {
 // devoirs-core でスクレイピングを行う関数
 const scraping = () => {
     // devoirs-core の一時データを削除
-    fs.removeSync('./data');
+    fs.removeSync(workerData.tmp_dir);
 
     // Puppeteer (Headless Chrome) を使用
     const chromium: devoirs.Chromium = devoirs.createChromium({
-        dataDirPath: './data'
+        dataDirPath: workerData.tmp_dir
     });
 
     // Microsoft のアカウントで認証

@@ -9,8 +9,8 @@ let resJSON: any;
 
 // Express.js を使用する
 const app: express.Express = express();
-// config.yaml から設定を読み込む
-// const config: any = yaml.load(fs.readFileSync('./config.yaml').toString('utf-8'));
+// api-config.yaml から設定を読み込む
+const config: any = yaml.load(fs.readFileSync('./api-config.yaml').toString('utf-8'));
 
 // 扱うタイムゾーン
 const timezones: Array<string> = ['Asia/Tokyo', 'Asia/Ulaanbaatar', 'Asia/Bangkok'];
@@ -22,7 +22,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
     console.log(`|GET| ${req.url} <- ${req.ip}`);
 
     res.status(200);
-    res.send(`TCJ2 Kadai Store API - v${process.env.npm_package_version}`);
+    res.send(`Kadai Store API - v${process.env.npm_package_version}`);
 });
 
 // [GET] /version
@@ -30,7 +30,7 @@ router.get('/version', (req: express.Request, res: express.Response) => {
     console.log(`|GET| ${req.url} <- ${req.ip}`);
 
     res.status(200);
-    res.send(`TCJ2 Kadai Store API - v${process.env.npm_package_version}`);
+    res.send(`Kadai Store API - v${process.env.npm_package_version}`);
 });
 
 // [GET] /get
@@ -104,7 +104,8 @@ const task: Worker = new Worker(
     {
         workerData: {
             path:      './scraping.ts',
-            timezones: timezones
+            tmp_dir:   config.tmp_dir,
+            timezones: config.timezones
         }
     }
 );
