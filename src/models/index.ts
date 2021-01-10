@@ -1,5 +1,3 @@
-import * as moment from 'moment-timezone';
-
 // 課題情報を格納するオブジェクト
 export interface Assignment {
     course?:     string;

@@ -1,5 +1,5 @@
-import { Assignment, ScrapingData } from './models';
 import * as moment from 'moment-timezone';
+import { Assignment, ScrapingData } from './models';
 
 // スクレイピング情報の時刻を、そのタイムゾーンに合わせる関数
 export const infoTimeConv = (data: ScrapingData, timezone: string): ScrapingData => {

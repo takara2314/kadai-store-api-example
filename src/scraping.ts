@@ -1,7 +1,7 @@
-import * as devoirs from 'devoirs-core';
-import { isMainThread, parentPort, workerData } from 'worker_threads';
 import fs from 'fs-extra';
+import * as devoirs from 'devoirs-core';
 import * as moment from 'moment-timezone';
+import { isMainThread, parentPort, workerData } from 'worker_threads';
 import { Assignment, ScrapingData, ScrapingDatas } from './models';
 import { infoTimeConv } from './convert';
 
