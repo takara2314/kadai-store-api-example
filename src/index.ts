@@ -70,5 +70,6 @@ const task: Worker = new Worker(
 // スクレイピングされたら、JSON文字列に変換して標準出力
 task.on('message', (mes) => {
     resJSON = JSON.stringify(mes.value);
-    console.log(resJSON);
+    // console.log(resJSON);
+    // console.log('取得完了しました。');
 })

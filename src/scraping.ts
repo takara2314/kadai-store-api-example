@@ -3,6 +3,7 @@ import { isMainThread, parentPort, workerData } from 'worker_threads';
 import fs from 'fs-extra';
 import * as moment from 'moment-timezone';
 import { Assignment, ScrapingData, ScrapingDatas } from './models';
+import { infoTimeConv } from './convert';
 
 // メインスレッドで実行されているなら
 if (isMainThread) {
@@ -93,16 +94,15 @@ const scraping = () => {
         let jsonDataFuture: Array<ScrapingData> = [];
 
         // 扱うタイムゾーンの分だけ、そのタイムゾーンに合わせて複製
-        for (let timezone in workerData.timezones) {
+        for (let timezone of workerData.timezones) {
             jsonDataAll.push(kadaiDataUTC);
             jsonDataFuture.push(kadaiDataUTCFuture);
-            // ↓ 次のコミットで実装 ↓
-            // jsonDataAll.push(
-            //     timeConv(kadaiDataUTC, timezone)
-            // );
-            // jsonDataFuture.push(
-            //     timeConv(kadaiDataUTCFuture, timezone)
-            // );
+            jsonDataAll.push(
+                infoTimeConv(kadaiDataUTC, timezone)
+            );
+            jsonDataFuture.push(
+                infoTimeConv(kadaiDataUTCFuture, timezone)
+            );
         }
 
         // レスポンスするJSONのデータ
@@ -113,7 +113,7 @@ const scraping = () => {
 
         // index.ts へ課題情報オブジェクトを返す
         parentPort!.postMessage({
-            value: jsonData
+            value: jsonData.future
         });
     })().catch(console.error);
 };
