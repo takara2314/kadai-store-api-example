@@ -93,6 +93,8 @@ const scraping = () => {
         let jsonDataAll: Array<ScrapingData> = [];
         let jsonDataFuture: Array<ScrapingData> = [];
 
+        jsonDataAll.push(kadaiDataUTC);
+        jsonDataFuture.push(kadaiDataUTCFuture);
         // 扱うタイムゾーンの分だけ、そのタイムゾーンに合わせて複製
         for (let timezone of workerData.timezones) {
             jsonDataAll.push(
@@ -111,7 +113,7 @@ const scraping = () => {
 
         // index.ts へ課題情報オブジェクトを返す
         parentPort!.postMessage({
-            value: jsonData.future
+            value: jsonData
         });
     })().catch(console.error);
 };
