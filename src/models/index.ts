@@ -1,3 +1,5 @@
+import * as moment from 'moment-timezone';
+
 // 課題情報を格納するオブジェクト
 export interface Assignment {
     course?:     string;
@@ -5,12 +7,12 @@ export interface Assignment {
     subject_id?: string;
     name?:       string;
     id?:         string;
-    due?:        Date;
+    due?:        string;
 }
 
 // スクレイピング情報を格納するオブジェクト
 export interface ScrapingData {
-    acquisition?: Date;
+    acquisition?: string;
     assignments?: Assignment[];
 }
 

@@ -24,7 +24,7 @@ const scraping = () => {
     const authorizer: devoirs.AutomaticAuthorizer = new devoirs.AutomaticAuthorizer(
         chromium,
         process.env.MICROSOFT_EMAIL!,
-        process.env.MICROSOFT_PASSWORD!,
+        process.env.MICROSOFT_PASSWORD!
     );
 
     // Microsoft からトークンを取得
@@ -58,7 +58,7 @@ const scraping = () => {
                     subject_id: course.name,
                     name:       assignment.displayName,
                     id:         assignment.id,
-                    due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').toDate()
+                    due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').format()
                 };
                 kadaiInfos.push(kadaiInfo);
 
@@ -72,7 +72,7 @@ const scraping = () => {
                         subject_id: course.name,
                         name:       assignment.displayName,
                         id:         assignment.id,
-                        due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').toDate()
+                        due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').format()
                     };
                     kadaiInfosFuture.push(kadaiInfoFuture);
                 }
@@ -81,22 +81,20 @@ const scraping = () => {
 
         // 全ての課題の情報が載っている、スクレイピング情報
         let kadaiDataUTC: ScrapingData = {
-            acquisition: moment.default().tz('Etc/UTC').toDate(),
+            acquisition: moment.default().tz('Etc/UTC').format(),
             assignments: kadaiInfos
-        }
+        };
         // 提出期限が未来の課題の情報が載っている、スクレイピング情報
         let kadaiDataUTCFuture: ScrapingData = {
-            acquisition: moment.default().tz('Etc/UTC').toDate(),
+            acquisition: moment.default().tz('Etc/UTC').format(),
             assignments: kadaiInfosFuture
-        }
+        };
 
         let jsonDataAll: Array<ScrapingData> = [];
         let jsonDataFuture: Array<ScrapingData> = [];
 
         // 扱うタイムゾーンの分だけ、そのタイムゾーンに合わせて複製
         for (let timezone of workerData.timezones) {
-            jsonDataAll.push(kadaiDataUTC);
-            jsonDataFuture.push(kadaiDataUTCFuture);
             jsonDataAll.push(
                 infoTimeConv(kadaiDataUTC, timezone)
             );
@@ -109,7 +107,7 @@ const scraping = () => {
         let jsonData: ScrapingDatas = {
             all:    jsonDataAll,
             future: jsonDataFuture
-        }
+        };
 
         // index.ts へ課題情報オブジェクトを返す
         parentPort!.postMessage({
