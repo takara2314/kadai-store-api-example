@@ -14,6 +14,11 @@ export const apiServer = () => {
         config['allow-tokens'].length
     ).fill(config.get_limit as number);
 
+    // 指定した期間後になったら、API利用可能回数をリセット
+    setInterval(() => {
+        getCount.fill(config.get_limit as number);
+    }, (config.get_limit_duration as number) * 60000);
+
     // 指定した期間が経過すれば、API利用可能回数をリセットする
     if (config.get_limit_duration > 1) {
         setInterval(() => {
@@ -21,8 +26,6 @@ export const apiServer = () => {
             getCount.fill(config.get_limit as number);
         }, config.get_limit_duration * 60000);
     }
-
-    console.log(getCount);
 
     // [GET] /
     router.get('/', (req: express.Request, res: express.Response) => {
@@ -60,8 +63,8 @@ export const apiServer = () => {
 
         console.log(getCount);
         if (index !== -1 && getCount[index] > 0) {
-            // トークン部分が allow-tokens にあれば
-            getAccess(req, res);
+            // トークン部分が allow-tokens にあるのと一致すれば
+            provide(req, res);
 
             if (isGetLimit) {
                 getCount[index]--;
@@ -103,8 +106,8 @@ export const apiServer = () => {
     });
 }
 
-// /get にアクセスされたときの処理
-const getAccess = (req: express.Request, res: express.Response) => {
+// /get にアクセスされ、正しく認証されて、制限に引っかかっていないときの処理
+const provide = (req: express.Request, res: express.Response) => {
     // 一度でもスクレイピングしたなら、JSONを返す
     if (resJSON !== undefined) {
         // URLクエリパラメータ "due" "timezone" を取得
@@ -153,3 +156,7 @@ const getAccess = (req: express.Request, res: express.Response) => {
         res.send('503 Service Unavailable');
     }
 };
+
+const test = () => {
+    console.log('たからん！');
+}
