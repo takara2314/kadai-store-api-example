@@ -11,7 +11,7 @@ export const apiServer = () => {
     const isGetLimit: boolean = config.get_limit > -1 ? true : false;
 
     // トークンごとに、指定した期間内のAPI利用可能回数を記録
-    const getCount: Array<number> = new Array(
+    const getCount: number[] = new Array(
         config['allow-tokens'].length
     ).fill(config.get_limit as number);
 
@@ -62,7 +62,6 @@ export const apiServer = () => {
             index = -1;
         }
 
-        console.log('isGetLimit: ' + isGetLimit);
         if (index !== -1 && (getCount[index] > 0 || !isGetLimit)) {
             // トークン部分が allow-tokens にあるのと一致すれば
             provide(req, res);

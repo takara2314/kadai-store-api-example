@@ -45,14 +45,14 @@ const scraping = () => {
 
     (async () => {
         // 全ての課題情報
-        let kadaiInfos: Array<Assignment> = [];
+        let kadaiInfos: Assignment[] = Array();
         // 期限が未来の課題情報
-        let kadaiInfosFuture: Array<Assignment> = [];
+        let kadaiInfosFuture: Assignment[] = Array();
 
         // 扱うチーム名
-        let teamNames: Array<string> = workerData.subjects.map(
-            (name: Array<string>): string => {
-                return name[0]
+        let teamNames: string[] = workerData.subjects.map(
+            (name: string[]): string => {
+                return name[0];
         });
 
         for (const course of await client.getClasses()) {
@@ -98,8 +98,8 @@ const scraping = () => {
             assignments: kadaiInfosFuture
         };
 
-        let jsonDataAll: Array<ScrapingData> = [];
-        let jsonDataFuture: Array<ScrapingData> = [];
+        let jsonDataAll: ScrapingData[] = Array();
+        let jsonDataFuture: ScrapingData[] = Array();
 
         jsonDataAll.push(kadaiDataUTC);
         jsonDataFuture.push(kadaiDataUTCFuture);

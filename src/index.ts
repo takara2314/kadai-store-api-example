@@ -3,11 +3,12 @@ import * as yaml from 'js-yaml';
 import * as path from 'path';
 import { Worker } from 'worker_threads';
 import { apiServer } from './server';
+import { ScrapingDatas } from './models';
 
 // api-config.yaml から設定を読み込む
 export const config: any = yaml.load(fs.readFileSync('./api-config.yaml').toString('utf-8'));
 // レスポンスするJSONのオブジェクト
-export let resJSON: any;
+export let resJSON: ScrapingDatas;
 
 // APIサーバーを起動
 apiServer();
