@@ -23,7 +23,6 @@ export const apiServer = () => {
     // 指定した期間が経過すれば、API利用可能回数をリセットする
     if (config.get_limit_duration > 1) {
         setInterval(() => {
-            console.log('更新しました。');
             getCount.fill(config.get_limit as number);
         }, config.get_limit_duration * 60000);
     }
@@ -101,7 +100,8 @@ export const apiServer = () => {
     app.use(router);
 
     // APIサーバーの提供を開始
-    app.listen(8080, () => {
-        console.log("ポート8080で開始しました。");
+    app.listen(process.env.PORT, () => {
+        console.log(`Kadai Store API - v${process.env.npm_package_version}`);
+        console.log(`ポート${process.env.PORT}で開始しました。`);
     });
 }

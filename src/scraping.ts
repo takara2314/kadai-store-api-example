@@ -12,6 +12,12 @@ if (isMainThread) {
 
 // devoirs-core でスクレイピングを行う関数
 const scraping = () => {
+    // 現在時刻が、課題情報を取得しない時間であれば、処理を中止
+    if (
+        workerData.update_offtimes.includes(moment.default().hour())
+        && workerData.update_offtimes.length !== 0
+    ) { return; }
+
     // devoirs-core の一時データを削除
     fs.removeSync(workerData.tmp_dir);
 
