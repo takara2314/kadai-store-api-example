@@ -49,13 +49,21 @@ const scraping = () => {
         // 期限が未来の課題情報
         let kadaiInfosFuture: Array<Assignment> = [];
 
+        // 扱うチーム名
+        let teamNames: Array<string> = workerData.subjects.map(
+            (name: Array<string>): string => {
+                return name[0]
+        });
+
         for (const course of await client.getClasses()) {
             for (const assignment of await client.getAssignments(course.id)) {
+                let index: number = teamNames.indexOf(course.name);
+
                 // 課題情報
                 const kadaiInfo: Assignment = {
                     course:     course.name,
-                    subject:    course.name,
-                    subject_id: course.name,
+                    subject:    (index !== -1) ? workerData.subjects[index][1] : 'unknown',
+                    subject_id: (index !== -1) ? workerData.subjects[index][2] : 'unknown',
                     name:       assignment.displayName,
                     id:         assignment.id,
                     due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').format()
@@ -68,8 +76,8 @@ const scraping = () => {
                     // 課題情報
                     const kadaiInfoFuture: Assignment = {
                         course:     course.name,
-                        subject:    course.name,
-                        subject_id: course.name,
+                        subject:    (index !== -1) ? workerData.subjects[index][1] : 'unknown',
+                        subject_id: (index !== -1) ? workerData.subjects[index][2] : 'unknown',
                         name:       assignment.displayName,
                         id:         assignment.id,
                         due:        moment.default(assignment.dueDateTime).tz('Etc/UTC').format()

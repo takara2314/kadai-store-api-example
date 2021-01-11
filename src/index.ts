@@ -20,7 +20,8 @@ const task: Worker = new Worker(
             path:            './scraping.ts',
             tmp_dir:         config['tmp-dir'],
             timezones:       config.timezones,
-            update_duration: config.update_duration
+            update_duration: config.update_duration,
+            subjects:        config.subjects
         }
     }
 );

@@ -51,7 +51,7 @@ export const apiServer = () => {
 
         // ヘッダー "Authorization" を取得
         let auth: string = req.header('Authorization') === undefined ? '' : req.header('Authorization') as string;
-        console.log(`(Authorization: ${auth})`)
+        console.log(`(Authorization: ${auth})`);
 
         // トークン部分が allow-tokens になければ、結果的に不許可
         let index: number = config['allow-tokens']
@@ -61,7 +61,6 @@ export const apiServer = () => {
             index = -1;
         }
 
-        console.log(getCount);
         if (index !== -1 && getCount[index] > 0) {
             // トークン部分が allow-tokens にあるのと一致すれば
             provide(req, res);
@@ -153,10 +152,6 @@ const provide = (req: express.Request, res: express.Response) => {
         console.log('-> 503 Service Unavailable');
         console.log('-> まだスクレイピングが完了していません。');
         res.status(503);
-        res.send('503 Service Unavailable');
+        res.send('Sorry, this service is preparing.');
     }
 };
-
-const test = () => {
-    console.log('たからん！');
-}
