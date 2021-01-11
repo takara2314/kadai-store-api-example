@@ -3,24 +3,24 @@
 
 # MS Teamsから課題情報を取得する、時間の間隔(分)をここで指定します。
 # 1 以上の整数を入れてください。
-update_duration: 5
+update_duration: 1
 
 # MS Teamsから課題情報を取得しない、時(hour)があれば、ここで指定します。(複数指定可)
 # 0 から 23 の中の整数を入れてください。指定がない場合は [] にしてください。
 update_offtimes: [0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23]
 
-# 1つのトークンが、下で指定する期間内にこのAPIにGETできる回数をここで指定します。
+# 1つのトークンが、下で指定する期間内にこのAPI(/get)にGETできる回数をここで指定します。(レート制限)
 # 1 以上の整数もしくは -1 を入れてください。指定しない場合は -1 を入れてください。
-get_limit: -1
+get_limit: 3
 
 # get_limit の期間(分)をここで指定します。
 # 1 以上の整数もしくは -1 を入れてください。get_limit で指定していない場合は -1 を入れてください。
-get_limit_duration: -1
+get_limit_duration: 1
 
 # 一時的なデータを保管するディレクトリをここで指定します。
 #   Herokuを使用する場合: ./tmp/api-data
 #   Google App Engineを使用する場合: ./tmp/api-data
-tmp_dir: ./tmp/api-data
+tmp-dir: ./tmp/api-data
 
 # UTC(協定世界時)以外に扱うタイムゾーンをここで指定します。
 # 利用可能なタイムゾーンは https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List の

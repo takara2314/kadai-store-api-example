@@ -17,9 +17,10 @@ const task: Worker = new Worker(
     path.resolve(__dirname, './worker.js'),
     {
         workerData: {
-            path:      './scraping.ts',
-            tmp_dir:   config.tmp_dir,
-            timezones: config.timezones
+            path:            './scraping.ts',
+            tmp_dir:         config['tmp-dir'],
+            timezones:       config.timezones,
+            update_duration: config.update_duration
         }
     }
 );

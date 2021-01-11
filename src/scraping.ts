@@ -118,8 +118,8 @@ const scraping = () => {
     })().catch(console.error);
 };
 
-// 1分(60秒)ごとにスクレイピングする
-// setInterval は実行してから1分後に、初めてscraping関数を呼び出すので、
+// 指定した期間後ごとにスクレイピングする
+// setInterval は実行してから指定した期間後に、初めてscraping関数を呼び出すので、
 // 最初の一回は自分で呼び出す
 scraping();
-setInterval(scraping, 60000);
+setInterval(scraping, workerData.update_duration * 60000);
