@@ -1,5 +1,6 @@
 import express from 'express';
 import { config, resJSON } from './index';
+import { provide } from './provide';
 
 export const apiServer = () => {
     // Express.js を使用する
@@ -7,7 +8,7 @@ export const apiServer = () => {
     const router: express.Router = express.Router();
 
     // API利用回数の制限を設けているなら
-    const isGetLimit: boolean = config['allow-tokens'].length > -1 ? true : false;
+    const isGetLimit: boolean = config.get_limit > -1 ? true : false;
 
     // トークンごとに、指定した期間内のAPI利用可能回数を記録
     const getCount: Array<number> = new Array(
@@ -61,7 +62,8 @@ export const apiServer = () => {
             index = -1;
         }
 
-        if (index !== -1 && getCount[index] > 0) {
+        console.log('isGetLimit: ' + isGetLimit);
+        if (index !== -1 && (getCount[index] > 0 || !isGetLimit)) {
             // トークン部分が allow-tokens にあるのと一致すれば
             provide(req, res);
 
@@ -104,54 +106,3 @@ export const apiServer = () => {
         console.log("ポート8080で開始しました。");
     });
 }
-
-// /get にアクセスされ、正しく認証されて、制限に引っかかっていないときの処理
-const provide = (req: express.Request, res: express.Response) => {
-    // 一度でもスクレイピングしたなら、JSONを返す
-    if (resJSON !== undefined) {
-        // URLクエリパラメータ "due" "timezone" を取得
-        // 指定されていなかったら、空の文字列を渡す
-        let due: string = req.query.due == undefined ? '' : req.query.due as string;
-        let timezone: string = req.query.timezone === undefined ? '' : req.query.timezone as string;
-
-        let index: number = config.timezones.indexOf(timezone);
-
-        res.status(200);
-        res.header('Content-Type', 'application/json; charset=utf-8');
-
-        if (due === 'future' && index !== -1) {
-            // 提出期限が未来の課題情報で、タイムゾーン指定があるなら
-            console.log('-> 200 OK');
-            console.log(`-> 有効な指定: 未来の課題のみ取得、${timezone}`);
-            res.send(
-                JSON.stringify(resJSON.future[index+1])
-            );
-        } else if (due === 'future') {
-            // 提出期限が未来の課題情報で、不正なタイムゾーンまたはタイムゾーン指定がなければ
-            console.log('-> 200 OK');
-            console.log('-> 有効な指定: 未来の課題のみ取得');
-            res.send(
-                JSON.stringify(resJSON.future[0])
-            );
-        } else if (index !== -1) {
-            // タイムゾーン指定があるなら
-            console.log('-> 200 OK');
-            console.log(`-> 有効な指定: ${timezone}`);
-            res.send(
-                JSON.stringify(resJSON.all[index+1])
-            );
-        } else {
-            // 不正なタイムゾーンまたはタイムゾーン指定がなければ
-            console.log('-> 200 OK');
-            console.log('-> 有効な指定: なし');
-            res.send(
-                JSON.stringify(resJSON.all[0])
-            );
-        }
-    } else {
-        console.log('-> 503 Service Unavailable');
-        console.log('-> まだスクレイピングが完了していません。');
-        res.status(503);
-        res.send('Sorry, this service is preparing.');
-    }
-};
