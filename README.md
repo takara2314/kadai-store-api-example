@@ -25,7 +25,7 @@ $ curl http://example.com/get?due=future&timezone=Asia/Tokyo&subject=math4,circu
 #### Response Example
 ```JSON
 {
-  "acquisition": "2020-04-01T12:34:56.000Z",
+  "acquisition": "2020-04-01T12:34:56+09:00",
   "homeworks": [
     {
       "course": "[099] 2年生 AI基礎",
