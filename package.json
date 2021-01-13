@@ -12,7 +12,7 @@
     "url": "git+https://github.com/takara2314/kadai-store-api.git"
   },
   "author": "Takara Hamaguchi",
-  "license": "MIT",
+  "license": "GPL-3.0 License",
   "bugs": {
     "url": "https://github.com/takara2314/kadai-store-api/issues"
   },
