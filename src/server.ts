@@ -2,6 +2,8 @@ import express from 'express';
 import { config, resJSON } from './index';
 import { provide } from './provide';
 
+const version: string = '1.0.1';
+
 export const apiServer = () => {
     // Express.js を使用する
     const app: express.Express = express();
@@ -33,7 +35,7 @@ export const apiServer = () => {
         console.log('-> 200 OK');
 
         res.status(200);
-        res.send(`Kadai Store API - v${process.env.npm_package_version}`);
+        res.send(`Kadai Store API - v${version}`);
     });
 
     // [GET] /version
@@ -42,7 +44,7 @@ export const apiServer = () => {
         console.log('-> 200 OK');
 
         res.status(200);
-        res.send(`Kadai Store API - v${process.env.npm_package_version}`);
+        res.send(`Kadai Store API - v${version}`);
     });
 
     // [GET] /get
@@ -101,7 +103,7 @@ export const apiServer = () => {
 
     // APIサーバーの提供を開始
     app.listen(process.env.PORT, () => {
-        console.log(`Kadai Store API - v${process.env.npm_package_version}`);
+        console.log(`Kadai Store API - v${version}`);
         console.log(`ポート${process.env.PORT}で開始しました。`);
     });
 }
