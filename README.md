@@ -40,6 +40,32 @@ $ curl http://example.com/get?due=future&timezone=Asia/Tokyo&subject=math4,circu
 ```
 `acquisition` はMS Teamsから取得した時刻です。
 
+### 教科ID一覧を取得 — GET /subjects
+#### Curl Example
+```Bash
+$ curl http://example.com/subjects \
+  -H "Authorization: Bearer $ACCESS_TOKEN"
+```
+#### Response Example
+```JSON
+{
+  "subjects": [
+    "hr",
+    "japanese",
+    "math3",
+    "physics-b",
+    "law2",
+    "le1",
+    "eikaiwa1",
+    "algorithm",
+    "web",
+    "circuit",
+    "dog",
+    "cat"
+  ]
+}
+```
+
 
 ## ✔ 前提 (サーバー)
 - Node.js 11.7.0+ (Recommend: 14.0.0+)
@@ -85,10 +111,15 @@ Node.js のコードを実行・運用できる環境（サーバーやホステ
 #### 🔎 デブロイが失敗する場合
 `Chromium(Puppeteer)`を使用しているので、ホスティングサービスによっては、デプロイが失敗することがあります。想定される理由として、メモリ不足や、必要なアドオンが導入されていないことが考えられます。
 
+|  |  |
+|:-|:-|
+| 最小メモリ | 512MB |
+| 推奨メモリ | 1024MB |
+
 ### 7. (ホスティングサービスを使用しない場合) 実行します。
 `npm start`を実行して、サーバーを起動します。
 
 `ts-node`を使用してTypeScriptを直接実行できる方は、`npm run dev`でもサーバーを起動することができます。
 
 ### 8. アクセスできるかを確かめる
-アクセスしてみてください。`Kadai Store API - v1.0.1`と表示されたら成功です。
+アクセスしてみてください。`Kadai Store API - v1.0.2`と表示されたら成功です。

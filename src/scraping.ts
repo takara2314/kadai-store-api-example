@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import os from 'os';
 import * as devoirs from 'devoirs-core';
 import * as moment from 'moment-timezone';
 import { isMainThread, parentPort, workerData } from 'worker_threads';
@@ -18,12 +19,15 @@ const scraping = () => {
         && workerData.update_offtimes.length !== 0
     ) { return; }
 
+    // 一時フォルダ
+    const tmp_dir: string = workerData.tmp_dir === null ? `${os.tmpdir()}/api-data` : workerData.tmp_dir;
+
     // devoirs-core の一時データを削除
-    fs.removeSync(workerData.tmp_dir);
+    fs.removeSync(tmp_dir);
 
     // Puppeteer (Headless Chrome) を使用
     const chromium: devoirs.Chromium = devoirs.createChromium({
-        dataDirPath: workerData.tmp_dir
+        dataDirPath: tmp_dir
     });
 
     // Microsoft のアカウントで認証

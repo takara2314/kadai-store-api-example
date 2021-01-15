@@ -1,8 +1,9 @@
 import express from 'express';
-import { config, resJSON } from './index';
+import { auth } from './auth';
+import { config } from './index';
 import { provide } from './provide';
 
-const version: string = '1.0.1';
+const version: string = '1.0.2';
 
 export const apiServer = () => {
     // Express.js を使用する
@@ -51,17 +52,8 @@ export const apiServer = () => {
     router.get('/get', (req: express.Request, res: express.Response) => {
         console.log(`|GET| ${req.url} <- ${req.ip}`);
 
-        // ヘッダー "Authorization" を取得
-        let auth: string = req.header('Authorization') === undefined ? '' : req.header('Authorization') as string;
-        console.log(`(Authorization: ${auth})`);
-
-        // トークン部分が allow-tokens になければ、結果的に不許可
-        let index: number = config['allow-tokens']
-            .indexOf(auth.slice(7));
-        // スキームが Bearer でなければ、結果的に不許可
-        if (auth.slice(0, 6) !== 'Bearer') {
-            index = -1;
-        }
+        // 認証
+        let index: number = auth(req);
 
         if (index !== -1 && (getCount[index] > 0 || !isGetLimit)) {
             // トークン部分が allow-tokens にあるのと一致すれば
@@ -80,6 +72,38 @@ export const apiServer = () => {
             res.send('401 Unauthorized');
         }
     });
+
+    // [GET] /subjects
+    router.get('/subjects', (req: express.Request, res: express.Response) => {
+        console.log(`|GET| ${req.url} <- ${req.ip}`);
+
+        // 認証
+        let index: number = auth(req);
+
+        if (index !== -1) {
+            console.log('-> 200 OK');
+
+            // 対応している教科ID
+            let subjects: string[] = config.subjects.map(
+                (name: string[]): string => {
+                    return name[2];
+            });
+            // 重複削除
+            subjects = Array.from(new Set(subjects));
+
+            const resJSON = {
+                subjects: subjects
+            }
+
+            res.status(200);
+            res.header('Content-Type', 'application/json; charset=utf-8');
+            res.send(JSON.stringify(resJSON));
+        } else {
+            console.log('-> 401 Unauthorized');
+            res.status(401);
+            res.send('401 Unauthorized');
+        }
+    })
 
     // [GET] 404 Not Found
     router.get('*', (req: express.Request, res: express.Response) => {

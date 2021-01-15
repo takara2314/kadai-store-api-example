@@ -19,10 +19,9 @@ get_limit: 60
 # 1 以上の整数もしくは -1 を入れてください。get_limit で指定していない場合は -1 を入れてください。
 get_limit_duration: 10
 
-# 一時的なデータを保管するディレクトリをここで指定します。
-#   Herokuを使用する場合: ./tmp/api-data
-#   Google App Engineを使用する場合: ./tmp/api-data
-tmp-dir: ./tmp/api-data
+# 一時的なデータを保管するディレクトリをここで指定できます。
+# 指定がない場合は、OSにて設定されている一時フォルダを使用します。
+tmp-dir:
 
 # UTC(協定世界時)以外に扱うタイムゾーンをここで指定します。
 # 利用可能なタイムゾーンは https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List の
