@@ -1,0 +1,6 @@
+# 鯖落ち防止
+cron:
+- description: "every 5 minutes job"
+  url: /version
+  schedule: every 5 minutes
+  timezone: Asia/Tokyo
